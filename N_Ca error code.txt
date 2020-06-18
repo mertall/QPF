@@ -1,0 +1,49 @@
+RuntimeError                              Traceback (most recent call last)
+/opt/conda/lib/python3.7/site-packages/qiskit/chemistry/drivers/pyscfd/integrals.py in compute_integrals(atom, unit, charge, spin, basis, hf_method, conv_tol, max_cycle, init_guess, max_memory)
+     69         mol.spin = spin
+---> 70         mol.build(parse_arg=False)
+     71         q_mol = _calculate_integrals(mol, hf_method, conv_tol, max_cycle, init_guess)
+
+/opt/conda/lib/python3.7/site-packages/pyscf/gto/mole.py in build(self, dump_input, parse_arg, verbose, output, max_memory, atom, basis, unit, nucmod, ecp, charge, spin, symmetry, symmetry_subgroup, cart)
+   2336             # number of electrons are consistent.
+-> 2337             self.nelec
+   2338 
+
+/opt/conda/lib/python3.7/site-packages/pyscf/gto/mole.py in nelec(self)
+   2102                                'Note mol.spin = 2S = Nalpha - Nbeta, not 2S+1' %
+-> 2103                                (ne, self.spin))
+   2104         return nalpha, nbeta
+
+RuntimeError: Electron number 27 and spin 0 are not consistent
+Note mol.spin = 2S = Nalpha - Nbeta, not 2S+1
+
+The above exception was the direct cause of the following exception:
+
+QiskitChemistryError                      Traceback (most recent call last)
+<ipython-input-4-4d86bfb75e10> in <module>
+     23     shift = energy_shift + repulsion_energy
+     24     return qubitOp, num_particles, num_spin_orbitals, shift
+---> 25 print(get_qubit_op())
+
+<ipython-input-4-4d86bfb75e10> in get_qubit_op()
+      2     driver = PySCFDriver(atom="N .0 .0 .0; Ca .0 .0 " + str(1.4410919), unit=UnitsType.ANGSTROM, 
+      3                          charge=0, spin=0, basis='sto3g')
+----> 4     molecule = driver.run()
+      5     freeze_list = [0]
+      6     remove_list = [-3, -2]
+
+/opt/conda/lib/python3.7/site-packages/qiskit/chemistry/drivers/pyscfd/pyscfdriver.py in run(self)
+    118                                   max_cycle=self._max_cycle,
+    119                                   init_guess=self._init_guess,
+--> 120                                   max_memory=self._max_memory)
+    121 
+    122         q_mol.origin_driver_name = 'PYSCF'
+
+/opt/conda/lib/python3.7/site-packages/qiskit/chemistry/drivers/pyscfd/integrals.py in compute_integrals(atom, unit, charge, spin, basis, hf_method, conv_tol, max_cycle, init_guess, max_memory)
+     78 
+     79     except Exception as exc:
+---> 80         raise QiskitChemistryError('Failed electronic structure computation') from exc
+     81 
+     82     return q_mol
+
+QiskitChemistryError: 'Failed electronic structure computation'
